@@ -31,6 +31,6 @@ public class Main {
                 continue;
             }
             System.out.println(m + ". " + menu.get(m-1).getName() + "\t| W" + menu.get(m-1).getPrice() + " | " + menu.get(m-1).getDesc()+"\n");
-    }
+        }
     }
 }

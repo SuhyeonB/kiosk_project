@@ -53,8 +53,4 @@ public class Kiosk {
     public void printSelectedMenu(int idx){
         System.out.println(idx + ". " + menu.get(idx-1).getName() + "\t| W" + menu.get(idx-1).getPrice() + " | " + menu.get(idx-1).getDesc()+"\n");
     }
-
-    public void addMenu(MenuItem item) {
-        menu.add(item);
-    }
 }

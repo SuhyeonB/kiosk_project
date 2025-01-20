@@ -81,15 +81,16 @@ public class Kiosk {
                 System.out.println("아래와 같이 주문하시겠습니까?\n");
 
                 System.out.println("[ Orders ]");
-                // 주문한 메뉴들 출력하기
-                // 가지고 있는 정보 : 메뉴들의 이름 (HashMap)
-                // 출력함수 위치 : MenuItem
-                // 즉, 위의 menu 처럼 전 메뉴를 다 순회하는데, Order에 존재하는 애들만 출력
-                for (int i=0; i<menu.size(); i++) {
-                    for (MenuItem item : menu.get(i).getMenuItems()) {
-                        if (order.getOrderItems().containsKey(item.getName())) item.printMenuItem();
-                    }
-                }
+//                for (int i=0; i<menu.size(); i++) {
+//                    for (MenuItem item : menu.get(i).getMenuItems()) {
+//                        if (order.getOrderItems().containsKey(item.getName())) item.printMenuItem();
+//                    }
+//                }
+
+                menu.stream()
+                        .flatMap(m -> m.getMenuItems().stream()) // 각 메뉴의 MenuItem 스트림 생성
+                        .filter(item -> order.getOrderItems().containsKey(item.getName())) // 주문에 포함된 항목 필터링
+                        .forEach(MenuItem::printMenuItem); // 각 항목 출력
 
                 System.out.println("\n[ Totals ]");
                 System.out.println("W " + order.getTotal() + "\n");

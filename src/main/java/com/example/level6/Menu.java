@@ -58,6 +58,6 @@ public class Menu {
                 sc.nextLine(); // 잘못된 입력 제거
             }
         }
-        return null;
+        return Optional.empty();
     }
 }

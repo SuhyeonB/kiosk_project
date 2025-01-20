@@ -43,9 +43,12 @@ public class Kiosk {
                 }
 
                 // select menu from each category
-                Optional<MenuItem> selected = menu.get(n1-1).selectMenu();
-                if (selected.isPresent())  addToOrder( selected.get().getName(), selected.get().getPrice());
-                else continue;
+                MenuItem selected = menu.get(n1-1).selectMenu().orElseGet(
+                        ()-> new MenuItem("NONE", "NONE", 0, "")
+                );
+                if (!selected.getName().equals("NONE"))
+                    addToOrder(selected.getName(), selected.getPrice());
+                 else continue;
 
                 if (!order.getOrderItems().isEmpty()) {
                     System.out.println("[ ORDER MENU ]");
@@ -57,10 +60,7 @@ public class Kiosk {
                 if (n2 == 5) {
                     order.removeOrder();
                 } else if (n2 == 4) {
-                     if(calculateTotal()) {
-                         System.out.println("\n **** 결제 되었습니다! ****");
-                         break;
-                     }
+                     if(calculateTotal()) break;
                 }
 
             } catch (InputMismatchException e) {
@@ -96,7 +96,22 @@ public class Kiosk {
 
                 System.out.println("1. 주문       2. 메뉴판");
                 int isOrdered = sc.nextInt();
-                if (isOrdered == 1) return true;
+                if (isOrdered == 1) {
+                    System.out.println("할인 정보를 입력해주세요");
+                    System.out.println("1. 국가 유공자 : 10%");
+                    System.out.println("2. 군인 : 5%");
+                    System.out.println("3. 학생 : 3%");
+                    System.out.println("4. 일반 : 0%");
+                    int discount = sc.nextInt();
+                    if (discount == 1) order.applyDiscount(DiscountType.VETERAN);
+                    else if (discount == 2) order.applyDiscount(DiscountType.SOLDIER);
+                    else if (discount == 3) order.applyDiscount(DiscountType.STUDENT);
+                    else if (discount == 4) order.applyDiscount(DiscountType.GENERAL);
+                    else return false;
+
+                    System.out.println("주문이 완료되었습니다. 금액은 W " + order.getTotal() + "입니다.");
+                    return true;
+                }
                 else if (isOrdered == 2) return false;
             }
         } catch (InputMismatchException e) {

@@ -25,4 +25,8 @@ public class Order {
     public void removeOrder(){
         orderItems.clear();
     }
+
+    public void applyDiscount(DiscountType discountType){
+        this.total = total * (1 - (discountType.getRate() / 100.0));
+    }
 }
